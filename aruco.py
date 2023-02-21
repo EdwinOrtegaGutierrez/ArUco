@@ -2,7 +2,7 @@ import numpy as np
 import time
 import cv2
 
-
+# Tipo de códigos ArUco
 ARUCO_DICT = {
 	"DICT_4X4_50": cv2.aruco.DICT_4X4_50,
 	"DICT_4X4_100": cv2.aruco.DICT_4X4_100,
@@ -27,6 +27,18 @@ ARUCO_DICT = {
 	"DICT_APRILTAG_36h11": cv2.aruco.DICT_APRILTAG_36h11
 }
 
+# Seleccionar tipo de codigo ArUco
+aruco_type = "DICT_4X4_100"
+# Fijar la busqueda en un tipo de ArUco especifico
+arucoDict = cv2.aruco.getPredefinedDictionary(ARUCO_DICT[aruco_type])
+# Crear el detector de parametros
+arucoParams = cv2.aruco.DetectorParameters()
+
+# Conectar camara
+cap = cv2.VideoCapture(0)
+# Seteo de la camara
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 
 def aruco_display(corners, ids, rejected, image):
 	if len(corners) > 0:
@@ -58,22 +70,6 @@ def aruco_display(corners, ids, rejected, image):
 			
 	return image
 
-
-
-
-aruco_type = "DICT_4X4_100"
-
-arucoDict = cv2.aruco.Dictionary_get(ARUCO_DICT[aruco_type])
-
-arucoParams = cv2.aruco.DetectorParameters_create()
-
-
-cap = cv2.VideoCapture(0)
-
-cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
-cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
-
-
 while cap.isOpened():
     
 	ret, img = cap.read()
@@ -83,7 +79,7 @@ while cap.isOpened():
 	width = 1000
 	height = int(width*(h/w))
 	img = cv2.resize(img, (width, height), interpolation=cv2.INTER_CUBIC)
- 
+
 	corners, ids, rejected = cv2.aruco.detectMarkers(img, arucoDict, parameters=arucoParams)
 
 	detected_markers = aruco_display(corners, ids, rejected, img)
@@ -91,8 +87,7 @@ while cap.isOpened():
 	cv2.imshow("Image", detected_markers)
 
 	key = cv2.waitKey(1) & 0xFF
-	if key == ord("q"):
-	    break
+	if key == ord("q"):break
 
 cv2.destroyAllWindows()
 cap.release()
