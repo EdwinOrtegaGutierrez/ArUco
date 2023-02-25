@@ -4,7 +4,6 @@ import numpy as np
 # Cargamos un diccionario ArUco
 aruco_dict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_100)
 
-
 # Definimos los parámetros de detección de ArUco
 parameters = cv2.aruco.DetectorParameters()
 
