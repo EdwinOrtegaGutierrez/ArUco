@@ -21,6 +21,10 @@ if err != sl.ERROR_CODE.SUCCESS:
     print("Error al abrir la cámara ZED: ", sl.ERROR_CODE.to_string(err))
     exit()
 
+"""DESCOMENTAR EN CASO DE QUE LA PARTE DE CV NO FUNCIONE"""
+# Maximizar la camara de una
+# zed.set_camera_settings(sl.CAMERA_SETTINGS.CAMERA_SETTINGS_BRIGHTNESS, -1, True)
+
 # Tipo de codigo ArUco a buscar
 aruco_dict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_4X4_100)
 parameters = cv2.aruco.DetectorParameters_create()
@@ -29,7 +33,16 @@ parameters = cv2.aruco.DetectorParameters_create()
 zed_param = sl.RuntimeParameters()
 zed_param.sensing_mode = sl.SENSING_MODE.STANDARD  # Normalon
 
+
 while True:
+    """AGREGAR BOTON DE MAX A LA INTERFAZ DE CV2"""
+    # Configurar la ventana para permitir el cambio de tamaño
+    cv2.namedWindow('ArUco detection', cv2.WINDOW_NORMAL)
+
+    # Maximizar la ventana en pantalla completa
+    cv2.setWindowProperty('ArUco detection', cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+    """COMENTAR EN CASO DE QUE NO FUNCIONE"""
+
     if zed.grab(zed_param) == sl.ERROR_CODE.SUCCESS:
         # Obtener la imagen de la cámara ZED
         left_image = sl.Mat()

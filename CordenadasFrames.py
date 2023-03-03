@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import cv2
 import numpy as np
 
@@ -28,8 +29,11 @@ if len(corners) > 0:
     # Dibujamos los ejes de coordenadas para cada código ArUco
     for i in range(len(ids)):
         cv2.aruco.drawDetectedMarkers(frame, corners, ids)
-
+    
     # Imprimimos las coordenadas de cada código ArUco encontrado
     for i in range(len(ids)):
-        print("Código ArUco ID: ", ids[i])
-        print("Coordenadas (x, y, z): ", tvecs[i][0])
+        print(f"Código ArUco ID: {ids[i][0]}")
+        if tvecs[i][0][0] > 0: 
+            print(f"Coordenadas (x, y, z).\nx: {tvecs[i][0][0]} y: {tvecs[i][0][1]} z: {tvecs[i][0][2]}") # Si encuentra profundidad real
+        else: print(f"Coordenadas (x, y, z):\nx: 0.0 y: 0.0 z: 0.0]") 
+            # Se setea a 0 porque resulta leer una imagen literal, porque tratara de leer la profundidad con negativos
