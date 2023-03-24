@@ -9,7 +9,7 @@ init_params.camera_resolution = sl.RESOLUTION.HD720  # Resolución
 init_params.camera_fps = 60  # FPS
 init_params.coordinate_units = sl.UNIT.METER  # Se establecen metros como unidad de medida
 init_params.camera_buffer_count_linux = 1  # Buffers de la cámara
-init_params.depth_mode = sl.DEPTH_MODE.NONE  # Modo de profundidad
+init_params.depth_mode = sl.DEPTH_MODE.ULTRA  # Modo de profundidad
 
 # Definimos los parámetros de la cámara cv2
 camera_matrix = np.array([[1000, 0, 320], [0, 1000, 240], [0, 0, 1]])
@@ -47,6 +47,10 @@ while True:
         # Obtener la imagen de la cámara ZED
         left_image = sl.Mat()
         zed.retrieve_image(left_image, sl.VIEW.LEFT)
+
+        # Obtener el mapa de profundidad
+        depth_map = sl.Mat()
+        zed.retrieve_measure(depth_map, sl.MEASURE.DEPTH)
 
         # Leer Frames la camara a una clase cv2
         zed_image = cv2.cvtColor(left_image.get_data(), cv2.COLOR_RGBA2RGB)
